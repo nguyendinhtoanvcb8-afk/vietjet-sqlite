@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ Hàng & Thanh Toán - Vietjet Travel</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+  <!-- ==================== 1. SITE HEADER ==================== -->
+  <header class="site-header">
+    <div class="container header-container">
+      <div class="logo-wrapper">
+        <a href="index.html" class="logo-badge" title="Vietjet Travel Portal">
+          Viet<span>jet</span>
+        </a>
+        <span class="logo-sub">Travel</span>
+      </div>
+
+      <!-- Menu Điều Hướng -->
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Trang Chủ</a></li>
+          <li><a href="flights.html" class="nav-link">Chuyến Bay</a></li>
+          <li><a href="tours.html" class="nav-link">Tour Du Lịch</a></li>
+        </ul>
+      </nav>
+
+      <!-- Hành Động Phía Phải -->
+      <div class="header-actions">
+        <a href="tel:19001886" class="hotline-btn">
+          <span>📞</span>
+          <span>1900 1886</span>
+        </a>
+
+        <!-- Nút Giỏ Hàng -->
+        <a href="cart.html" class="cart-icon-btn" title="Xem giỏ hàng của bạn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge" style="display: none;">0</span>
+        </a>
+
+        <!-- Nút Menu Mobile -->
+        <button class="mobile-toggle" aria-label="Mở menu">
+          <span>☰</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 2. PAGE HEADER ==================== -->
+  <div style="background: linear-gradient(135deg, #ee1d23 0%, #b91116 100%); color: #fff; padding: 32px 0;">
+    <div class="container">
+      <h1 style="font-size: 2rem; font-weight: 900; margin-bottom: 6px;">Giỏ Hàng & Xác Nhận Đặt Chỗ</h1>
+      <p style="opacity: 0.95; font-size: 0.95rem;">Kiểm tra danh sách chuyến bay, tour du lịch đã chọn và điền thông tin để nhận vé điện tử.</p>
+    </div>
+  </div>
+
+  <!-- ==================== 3. CART CONTENT ==================== -->
+  <main class="container">
+    <div class="cart-layout" id="cart-main-layout">
+      
+      <!-- CỘT TRÁI: DANH SÁCH MỤC & FORM THÔNG TIN -->
+      <div>
+        <!-- Khối Danh Sách Mục Đã Chọn -->
+        <div class="cart-card">
+          <div class="cart-card-header">
+            <h2 class="cart-card-title">
+              <span>🛒</span> Dịch Vụ Đã Chọn (<span id="cart-items-count">0</span>)
+            </h2>
+            <button type="button" class="cart-clear-btn" id="btn-clear-cart">
+              🗑 Xóa toàn bộ giỏ hàng
+            </button>
+          </div>
+
+          <div class="cart-items-list" id="cart-items-container">
+            <!-- Nạp tự động từ SQLite / Cart Service -->
+          </div>
+        </div>
+
+        <!-- Khối Thông Tin Cá Nhân Khách Hàng -->
+        <div class="cart-card" id="customer-form-card">
+          <div class="cart-card-header">
+            <h2 class="cart-card-title">
+              <span>👤</span> Thông Tin Hành Khách & Người Đặt
+            </h2>
+          </div>
+
+          <form id="checkout-form">
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="cust-name">Họ và Tên *</label>
+                <input type="text" id="cust-name" placeholder="Nguyễn Văn A" required>
+              </div>
+              <div class="form-field">
+                <label for="cust-phone">Số Điện Thoại Di Động *</label>
+                <input type="tel" id="cust-phone" placeholder="0912345678" pattern="[0-9]{10,11}" required>
+              </div>
+            </div>
+
+            <div class="form-field" style="margin-bottom: 16px;">
+              <label for="cust-email">Địa Chỉ Email (Nhận thông tin vé & xác nhận) *</label>
+              <input type="email" id="cust-email" placeholder="khachhang@example.com" required>
+            </div>
+
+            <div class="form-field">
+              <label for="cust-notes">Ghi Chú & Yêu Cầu Đặc Biệt (Tùy chọn)</label>
+              <textarea id="cust-notes" rows="3" placeholder="Ví dụ: Suất ăn chay, ghế ngồi gần cửa sổ, hỗ trợ xe lăn..."></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- CỘT PHẢI: TỔNG KẾT & THANH TOÁN -->
+      <aside>
+        <div class="order-summary-box">
+          <h3 class="summary-title">Tóm Tắt Đơn Hàng</h3>
+
+          <div class="summary-row">
+            <span>Tạm tính (<span id="summary-items-count">0</span> dịch vụ):</span>
+            <strong id="summary-subtotal">0 ₫</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Thuế GTGT & Phí sân bay (8%):</span>
+            <strong id="summary-vat">0 ₫</strong>
+          </div>
+
+          <div class="summary-row total-row">
+            <span>Tổng thanh toán:</span>
+            <span class="total-amount" id="summary-total">0 ₫</span>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-block btn-lg checkout-btn" id="btn-submit-booking">
+            ✓ Đăng Ký Đặt Chỗ
+          </button>
+
+          <div class="email-dispatch-notice">
+            📧 <strong>Thông báo xác nhận:</strong> Sau khi đăng ký, hệ thống sẽ tự động gửi email chi tiết hành trình từ <strong>nvhai061993@gmail.com</strong> đến email của quý khách.
+          </div>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Khung Giỏ Hàng Trống (Ẩn mặc định) -->
+    <div id="cart-empty-view" style="display:none; text-align:center; padding:80px 20px; background:#fff; border-radius:var(--radius-lg); margin:40px 0; border:1px solid var(--border-color);">
+      <div style="font-size:4rem; margin-bottom:16px;">🛍️</div>
+      <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:10px;">Giỏ hàng của bạn đang trống</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px; max-width:480px; margin-left:auto; margin-right:auto;">
+        Bạn chưa lựa chọn vé máy bay hay tour du lịch nào. Hãy khám phá ngay các ưu đãi đặc quyền từ Vietjet!
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <a href="flights.html" class="btn btn-primary">✈ Tìm Chuyến Bay</a>
+        <a href="tours.html" class="btn btn-outline">🏖 Khám Phá Tour</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== 4. MODAL THÔNG BÁO HOÀN THÀNH ==================== -->
+  <div class="modal-backdrop" id="success-modal">
+    <div class="modal-box">
+      <div class="modal-body" style="text-align:center; padding:36px 28px;">
+        <div class="success-icon-circle">✓</div>
+        <h2 style="font-size:1.6rem; font-weight:900; color:var(--text-main); margin-bottom:8px;">
+          Đặt Chỗ Thành Công!
+        </h2>
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">
+          Cảm ơn quý khách đã tin tưởng đồng hành cùng Vietjet Travel.
+        </p>
+
+        <div class="booking-code-box">
+          <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Mã Đặt Chỗ (Booking Code)</div>
+          <div class="booking-code-text" id="modal-booking-code">VJ-BOOK-84912</div>
+        </div>
+
+        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:var(--radius-md); padding:16px; text-align:left; font-size:0.88rem; color:#1e40af; line-height:1.6; margin-bottom:24px;">
+          ✉️ <strong>Email xác nhận đã được gửi:</strong><br>
+          Hệ thống vừa gửi thông tin chi tiết hành trình từ <strong>nvhai061993@gmail.com</strong> tới hộp thư: <strong id="modal-customer-email" style="color:var(--primary);"></strong>.<br>
+          Quý khách vui lòng kiểm tra hộp thư đến (Inbox) hoặc thư mục Spam.
+        </div>
+
+        <a href="index.html" class="btn btn-primary btn-block btn-lg">
+          Về Trang Chủ
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 5. SITE FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2026 Vietjet Travel Portal. Đặt vé máy bay & tour du lịch trực tuyến.</p>
+        <p>Hỗ trợ 24/7: <strong>1900 1886</strong> | Email: <strong>nvhai061993@gmail.com</strong></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+  <script src="js/db_binary.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/email.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await window.vietjetDB.init();
+      } catch (e) {
+        console.warn('DB init:', e);
+      }
+      renderCartPage();
+
+      // Lắng nghe sự kiện giỏ hàng thay đổi
+      window.addEventListener('vietjet:cart-updated', () => {
+        renderCartPage();
+      });
+
+      // Nút Xóa toàn bộ
+      document.getElementById('btn-clear-cart').addEventListener('click', async () => {
+        if (confirm('Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng?')) {
+          await window.vietjetCart.clear();
+          window.showToast('Đã làm rỗng giỏ hàng', 'info');
+        }
+      });
+
+      // Nút Đăng Ký Đặt Chỗ
+      document.getElementById('btn-submit-booking').addEventListener('click', handleSubmitBooking);
+    });
+
+    async function renderCartPage() {
+      const summary = await window.vietjetCart.getSummary();
+      const layoutEl = document.getElementById('cart-main-layout');
+      const emptyEl = document.getElementById('cart-empty-view');
+      const itemsContainer = document.getElementById('cart-items-container');
+
+      if (summary.count === 0) {
+        layoutEl.style.display = 'none';
+        emptyEl.style.display = 'block';
+        return;
+      }
+
+      layoutEl.style.display = 'grid';
+      emptyEl.style.display = 'none';
+
+      // Cập nhật số liệu tóm tắt
+      document.getElementById('cart-items-count').textContent = summary.count;
+      document.getElementById('summary-items-count').textContent = summary.count;
+      document.getElementById('summary-subtotal').textContent = window.formatVND(summary.subtotal);
+      document.getElementById('summary-vat').textContent = window.formatVND(summary.vat);
+      document.getElementById('summary-total').textContent = window.formatVND(summary.total);
+
+      // Render danh sách các mục
+      itemsContainer.innerHTML = summary.items.map(item => `
+        <div class="cart-item-row">
+          <div class="cart-item-left">
+            <div class="cart-item-type-icon">
+              ${item.item_type === 'flight' ? '✈️' : '🏖️'}
+            </div>
+            <div class="cart-item-info">
+              <div class="cart-item-title">${item.title}</div>
+              <div class="cart-item-sub">${item.subtitle || ''}</div>
+            </div>
+          </div>
+
+          <div class="cart-item-price-col">
+            <div class="cart-item-price">${window.formatVND(item.unit_price)}</div>
+            <button type="button" class="cart-item-del-btn" onclick="removeItem(${item.id})">
+              ✕ Xóa
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function removeItem(id) {
+      await window.vietjetCart.removeItem(id);
+      window.showToast('Đã xóa dịch vụ khỏi giỏ hàng', 'info');
+    }
+
+    async function handleSubmitBooking() {
+      const form = document.getElementById('checkout-form');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const email = document.getElementById('cust-email').value.trim();
+      const notes = document.getElementById('cust-notes').value.trim();
+
+      const summary = await window.vietjetCart.getSummary();
+      if (summary.count === 0) {
+        window.showToast('Giỏ hàng trống!', 'warning');
+        return;
+      }
+
+      const submitBtn = document.getElementById('btn-submit-booking');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '⏳ Đang Xử Lý & Gửi Email...';
+
+      try {
+        const result = await window.vietjetEmail.processBooking(
+          { name, phone, email, notes },
+          summary
+        );
+
+        if (result.success) {
+          // Hiển thị Modal Thành Công
+          document.getElementById('modal-booking-code').textContent = result.bookingCode;
+          document.getElementById('modal-customer-email').textContent = result.customerEmail;
+          document.getElementById('success-modal').classList.add('active');
+        } else {
+          window.showToast('Có lỗi xảy ra khi xử lý đơn hàng', 'danger');
+        }
+      } catch (err) {
+        console.error('Lỗi đặt hàng:', err);
+        window.showToast('Lỗi gửi email xác nhận!', 'danger');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '✓ Đăng Ký Đặt Chỗ';
+      }
+    }
+  </script>
+</body>
+</html>

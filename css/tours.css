@@ -1,0 +1,239 @@
+/* ==========================================================================
+   VIETJET TOURS & TOUR DETAIL STYLES (css/tours.css)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOURS LISTING 2-COLUMN LAYOUT
+   -------------------------------------------------------------------------- */
+.tours-layout {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 30px;
+  padding: 40px 0 80px;
+  align-items: start;
+}
+
+.tours-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Horizontal / Detailed Tour Card */
+.tour-list-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  display: grid;
+  grid-template-columns: 320px 1fr 220px;
+  align-items: stretch;
+}
+
+.tour-list-card:hover {
+  border-color: #fca5a5;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.tour-list-thumb-box {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  aspect-ratio: 600 / 400;
+  overflow: hidden;
+}
+
+.tour-list-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.tour-list-card:hover .tour-list-thumb {
+  transform: scale(1.05);
+}
+
+.tour-list-info {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tour-flight-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tour-list-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.tour-list-title a:hover {
+  color: var(--primary);
+}
+
+.tour-flight-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: var(--bg-subtle);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.tour-flight-details strong {
+  color: var(--text-main);
+}
+
+.tour-list-services {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.tour-list-price-box {
+  padding: 24px;
+  background: #fafafa;
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+  gap: 12px;
+}
+
+.tour-list-price {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--primary);
+}
+
+/* --------------------------------------------------------------------------
+   2. TOUR DETAIL PAGE
+   -------------------------------------------------------------------------- */
+.tour-detail-hero {
+  background: linear-gradient(135deg, rgba(238, 29, 35, 0.95) 0%, rgba(185, 17, 22, 0.98) 100%),
+              url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80') center/cover;
+  color: #ffffff;
+  padding: 40px 0 70px;
+}
+
+.tour-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  margin-top: -40px;
+  padding-bottom: 80px;
+  align-items: start;
+}
+
+/* Timeline Lịch Trình */
+.itinerary-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  margin-top: 24px;
+  padding-left: 30px;
+  border-left: 3px solid #fca5a5;
+}
+
+.itinerary-day-item {
+  position: relative;
+}
+
+.itinerary-day-item::before {
+  content: '';
+  position: absolute;
+  left: -38px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.itinerary-day-tag {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+}
+
+.itinerary-day-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.itinerary-day-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Booking Sidebar Box */
+.tour-booking-sidebar {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  position: sticky;
+  top: 96px;
+}
+
+.tour-sticky-price {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .tours-layout {
+    grid-template-columns: 1fr;
+  }
+  .tour-list-card {
+    grid-template-columns: 1fr;
+  }
+  .tour-list-price-box {
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .tour-detail-layout {
+    grid-template-columns: 1fr;
+  }
+  .tour-booking-sidebar {
+    position: static;
+  }
+}
